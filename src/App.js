@@ -1,6 +1,5 @@
 /** @format */
 
-import logo from "./logo.svg";
 import "./App.css";
 import Letters from "./component/Letters";
 import { useState } from "react";
@@ -10,36 +9,9 @@ import Hint from "./component/Hint";
 import Score from "./component/Score";
 import Gameover from "./component/Gameover";
 import RestartBtn from "./component/RestartBtn";
+import Win from "./component/Win";
 
 function App() {
-  const [score,setScore]=useState(100)
-  const [gameOver,setGameOver]=useState(false)
-  const [hint,setHint]=useState("The one and the only who develop the game..")
-  const [word, setWord] = useState(["A", "D", "I", "R","A"]);
-  const [GuessedWord, setGuessedWord] = useState([]);
-  const [remainGuesses, setRemainGuess] = useState(5);
-  const[lines,setLines]=useState(word.length-GuessedWord.length)
-  const checkIfLetterCorrect = (letter) => {
-    console.log(
-      word.filter((l) => {
-        return l == letter;
-      })
-    );
-    return word.filter((l) => {
-      return l == letter;
-    });
-  };
-  const chooseLetter = (letter) => {
-    if (checkIfLetterCorrect(letter).length != 0) {
-      setScore((pre)=> pre+5)
-      let updatedWord = [...GuessedWord];
-      updatedWord.push(letter);
-      setGuessedWord(updatedWord);
-    } else {
-      setScore((pre)=> pre-20)
-      setRemainGuess((pre) => pre - 1);
-    }
-  };
   let letters = [
     "a",
     "b",
@@ -69,15 +41,51 @@ function App() {
     "z",
   ];
   letters = letters.map((l) => l.toUpperCase());
+  const [score, setScore] = useState(100);
+  const [gameOver, setGameOver] = useState(false);
+  const [hint, setHint] = useState(' "who is seroja"');
+  const secretWord=["S", "E", "R", "G","E","Y"]
+  const [lettersLeft,setLetterLeft]=useState(secretWord.length)
+  const [GuessedWord, setGuessedWord] = useState(["_","_","_","_","_","_"]);
+  const [remainGuesses, setRemainGuess] = useState(5);
+  const [letterz, setLetters] = useState(letters);
+ 
+  const checkIfLetterCorrect = (letter) => {
+    return secretWord.filter((l) => {
+      return l == letter;
+    });
+  };
+
+  const chooseLetter = (letter) => {
+    if (checkIfLetterCorrect(letter).length != 0) {
+      setScore((pre) => pre + 5);
+      setLetterLeft((pre)=>pre-1)
+      let letterIndex = secretWord.findIndex((l) => l === letter);
+      
+      let updatedWord = [...GuessedWord];
+      updatedWord[letterIndex]=letter
+      
+      setGuessedWord(updatedWord);
+
+    } else {
+      let newLetters = [...letterz];
+      newLetters = letterz.filter((l) => {return l != letter;});
+      setLetters(newLetters);
+      setScore((pre) => pre - 20);
+      setRemainGuess((pre) => pre - 1);
+    }
+  };
 
   return (
     <div className="App">
-      <Score score={score}/>
-      {remainGuesses==0? <Gameover />: <><Guesses remainGuesses={remainGuesses} />
-      <Characters word={GuessedWord} lines={word.length - GuessedWord.length} />
-      <Hint hint={hint} /></>}
-      <Letters chooseLetter={chooseLetter} letters={letters} />
-    {gameOver? <RestartBtn />:<></>}
+      <Score score={score} />
+      {lettersLeft==0? <> <Win /> <Characters word={GuessedWord} /></>  :remainGuesses == 0 ? ( <Gameover />) : (<>
+          <Guesses remainGuesses={remainGuesses} />
+          <Characters word={GuessedWord} />
+          <Hint hint={hint} />
+           </> )}
+      <Letters chooseLetter={chooseLetter} letters={letterz} />
+      {gameOver ? <RestartBtn /> : <></>}
     </div>
   );
 }

@@ -43,9 +43,18 @@
 
 .score{
   font-size: 30px;
+  padding-bottom: 18px;
 }
 
 .hint{
   padding:13px;
   font-size: 20px;
+}
+
+.win{
+  padding-top: 30px;
+  padding-bottom: 127px;
+  font-size: 30px;
+  font-weight: bold;
+  color: brown;
 }
