@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function RestartBtn() {
+export default function RestartBtn({restartGame}) {
   return (
-    <div><div className="restartBtn">Restart</div></div>
+    <div><div className="restartBtn" onClick={restartGame}>Restart</div></div>
   )
 }

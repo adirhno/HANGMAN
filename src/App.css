@@ -44,6 +44,7 @@
 	border-radius: 3px;
 	font-size: 24px;
 	padding: 5px;
+	margin-top: 20px;
 }
 
 .score {
@@ -67,6 +68,5 @@
 }
 
 body {
-	background-image: url("./images/hangman2.jpeg"); 
+	background-image: url("./images/hangman2.jpeg");
 }
-
